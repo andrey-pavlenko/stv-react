@@ -1,0 +1,9 @@
+@import '../../node_modules/bulma/sass/utilities/initial-variables';
+@import '../../node_modules/bulma/sass/utilities/functions';
+
+$tablet: 313px;
+$desktop: 552px + (2 * $gap);
+$widescreen: 768px + (2 * $gap);
+$fullhd: 960px + (2 * $gap);
+
+@import '../../node_modules/bulma/bulma';

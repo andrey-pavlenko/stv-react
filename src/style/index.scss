@@ -1,0 +1,24 @@
+@import './bulma';
+@import './navbar';
+@import './file';
+
+html {
+  overflow-y: auto;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+*[tabindex] {
+  outline: none;
+}
+
+.center-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,0 +1,9 @@
+@startuml
+left to right direction
+actor User
+User -- (Load List)
+User -- (Select Week)
+User -- (View file)
+User -- (Download file)
+User -- (Modify Settings)
+@enduml

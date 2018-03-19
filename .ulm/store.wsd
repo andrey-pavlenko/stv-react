@@ -1,0 +1,44 @@
+@startuml
+
+class Redux {
+  .. selectors ..
+  +List getWeeks()
+  +Number getCurrentWeek()
+  +List getFileItemsForWeek(Number)
+  +List getUrlIds()
+
+  .. actions ..
+  +setCurrentWeek(Number)
+  +loadFileItems()
+  +viewFile(item)
+  +downloadFile(item)
+}
+
+Redux o-- Files
+Redux o-- Week
+Redux o-- Viewed
+Redux o-- Downloaded
+Redux o-- Settings
+
+class Files {
+  +pending: Boolean
+  +error: Strting
+  +items: List
+}
+
+class Week {
+  +current: Number
+}
+
+class Viewed {
+  +urlIds: List
+}
+
+class Downloaded {
+  +urlIds: List
+}
+
+class Settings {
+}
+
+@enduml

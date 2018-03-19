@@ -1,0 +1,15 @@
+@startuml
+
+(*) --> "List pending\n FILES_ITEMS_PENDING"
+--> "Clear errors"
+--> "Responde"
+if "Error" then
+-->[true] "Notify\n FILES_ITEMS_ERROR"
+--> "End pending"
+else
+-->[false] "Set items\n FILES_ITEMS_SET"
+--> "End pending"
+--> (*)
+
+
+@enduml

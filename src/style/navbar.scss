@@ -1,0 +1,46 @@
+.navbar .navbar-menu {
+  .navbar-item.has-dropdown {
+    @media screen and (max-width: $desktop) {
+      pointer-events: none;
+      .navbar-dropdown {
+        pointer-events: auto;
+      }
+    }
+  }
+  .icon {
+    @media screen and (max-width: $desktop) {
+      vertical-align: middle;
+      top: -1px;
+      position: relative;
+    }
+  }
+}
+
+.navbar__title {
+  @extend .has-text-weight-bold;
+  @extend .is-size-4;
+  cursor: default;
+}
+
+.navbar__title_loading {
+  @extend .navbar__title;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 1.5em;
+    width: 1.5em;
+  }
+
+  @at-root #{&}.is-loading {
+    &::after {
+      @include loader;
+      margin-left: 0.5em;
+      border-color: transparent transparent $white $white !important;
+    }
+  }
+}
+
+.navbar__id-tag {
+  border: 1px solid currentColor;
+}
