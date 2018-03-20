@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 
+import { Check, Ban } from '../Icons';
+
 class Navbar extends PureComponent {
   state = {
     isActive: false
@@ -29,8 +31,12 @@ class Navbar extends PureComponent {
           })}
         >
           <div className="navbar-end">
-            <a className="navbar-item">Сохранить</a>
-            <a className="navbar-item">Отмена</a>
+            <a className="navbar-item">
+              <Check className="icon" />&nbsp;Сохранить
+            </a>
+            <a className="navbar-item">
+              <Ban className="icon" />&nbsp;Отмена
+            </a>
           </div>
         </div>
       </nav>

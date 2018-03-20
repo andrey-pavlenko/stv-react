@@ -28,7 +28,7 @@ class Channels extends PureComponent {
             </thead>
             <tbody>
               {Object.keys(channels).map(key => (
-                <tr key="key">
+                <tr key={key}>
                   <td className="has-text-centered">
                     <input type="checkbox" />
                   </td>
