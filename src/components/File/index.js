@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 import Navbar from './Navbar';
 import TextContent from './TextContent';
@@ -8,54 +9,79 @@ import { getFileItem as stateGetFileItem } from '../../store/selectors';
 import { week as formatWeek, time as formatTime } from '../../modules/format';
 
 class File extends PureComponent {
+  state = {
+    item: null,
+    pending: false,
+    content: '',
+    error: null
+  };
+
+  // TODO: request method not choosen
+  componentWillMount() {
+    const urlId = parseInt(this.props.match.params.urlId, 10);
+    if (!isNaN(urlId)) {
+      const item = stateGetFileItem(urlId);
+      if (item) {
+        this.setState({ item: item, pending: true });
+        console.info(item);
+        axios
+          .get(
+            'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru' +
+              item.url
+          )
+          .then(response => {
+            // console.info(response);
+            this.setState({ pending: false, content: response.data });
+          })
+          .catch(error => console.error(error));
+      }
+    }
+  }
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
-  getFileItem() {
-    const urlId = parseInt(this.props.match.params.urlId, 10);
-    if (isNaN(urlId)) {
-      return null;
-    }
-
-    return stateGetFileItem(urlId);
-  }
-
   render() {
-    const item = this.getFileItem();
-    if (!item) {
+    if (!this.state.item) {
       return <Redirect to="/" />;
     }
 
+    // TODO: get rename channel
+    const { name, id, week, variant, type, timeshift, time } = this.state.item;
+
     return (
       <Fragment>
-        <Navbar />
+        <Navbar name={name} id={id} />
         <div className="container">
           <ul className="file-info">
-            <li className="file-info__item">{formatWeek(item.week)}</li>
+            <li className="file-info__item">{formatWeek(week)}</li>
             <li className="file-info__item">
-              <span>{item.variant}</span>
-              {item.type && <small className="tag">{item.type}</small>}
+              <span>{variant}</span>
+              {type && <code>{type}</code>}
             </li>
-            {item.timeshift !== 0 && (
+            {timeshift !== 0 && (
               <li className="file-info__item">
                 <span className="has-text-grey-light">Пояс:</span>&nbsp;
-                <span>
-                  {item.timeshift > 0 ? `+${item.timeshift}` : item.timeshift}
-                </span>
+                <span>{timeshift > 0 ? `+${timeshift}` : timeshift}</span>
               </li>
             )}
             <li className="file-info__item has-text-grey-light">
-              {formatTime(item.time)}
+              {formatTime(time)}
             </li>
           </ul>
-          <TextContent />
+          {this.state.pending ? (
+            <div className="file__pending" />
+          ) : (
+            <TextContent content={this.state.content} />
+          )}
         </div>
       </Fragment>
     );
   }
 }
 
+// TODO: May be connect not needed?
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({});

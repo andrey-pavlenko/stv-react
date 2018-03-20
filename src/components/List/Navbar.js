@@ -6,8 +6,12 @@ import { Set } from 'immutable';
 import { Link } from 'react-router-dom';
 
 import { Settings, Renew } from '../Icons';
-import { getWeeks, getCurrentWeek } from '../../store/selectors';
-import { setCurrentWeek } from '../../store/actions';
+import {
+  getWeeks,
+  getCurrentWeek,
+  getFilesRequestPending
+} from '../../store/selectors';
+import { setCurrentWeek, filesRequest } from '../../store/actions';
 import { week as formatWeek } from '../../modules/format';
 
 class WeeksDropdown extends PureComponent {
@@ -74,7 +78,6 @@ class WeeksDropdown extends PureComponent {
 
 class Navbar extends PureComponent {
   state = {
-    isLoading: false,
     isActive: false
   };
 
@@ -84,7 +87,7 @@ class Navbar extends PureComponent {
         <div className="navbar-brand">
           <p
             className={classNames('navbar-item navbar__title_loading', {
-              'is-loading': this.state.isLoading
+              'is-loading': this.props.pending
             })}
           >
             Список
@@ -115,7 +118,7 @@ class Navbar extends PureComponent {
             </div>
           )}
           <div className="navbar-end">
-            <a className="navbar-item">
+            <a className="navbar-item" onClick={this.props.filesRequest}>
               <Renew className="icon" />&nbsp;Обновить
             </a>
             <Link to="/settings" className="navbar-item">
@@ -130,11 +133,13 @@ class Navbar extends PureComponent {
 
 const mapStateToProps = state => ({
   weeks: getWeeks(state),
-  currentWeek: getCurrentWeek(state)
+  currentWeek: getCurrentWeek(state),
+  pending: getFilesRequestPending(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentWeek: week => dispatch(setCurrentWeek(week))
+  setCurrentWeek: week => dispatch(setCurrentWeek(week)),
+  filesRequest: () => dispatch(filesRequest())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

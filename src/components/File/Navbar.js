@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 
+// TODO: Rename icons
 import { ArrowDownBoxOutline } from '../Icons';
 
 class Navbar extends PureComponent {
@@ -13,8 +14,10 @@ class Navbar extends PureComponent {
       <nav className="navbar is-primary">
         <div className="navbar-brand">
           <p className="navbar-item navbar__title">
-            <span>Россия 1</span>&emsp;
-            <span className="tag is-primary navbar__id-tag">RTR</span>
+            <span>{this.props.name}</span>&emsp;
+            <span className="tag is-primary navbar__id-tag">
+              {this.props.id}
+            </span>
           </p>
           <p
             className={classNames('navbar-burger', {

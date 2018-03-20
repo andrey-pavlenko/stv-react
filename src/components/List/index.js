@@ -6,6 +6,7 @@ import Channel from './Channel';
 
 import { getCurrentWeekFileItems } from '../../store/selectors';
 
+// TODO: request list when mount
 const ChannelsList = props => (
   <Fragment>
     <Navbar />

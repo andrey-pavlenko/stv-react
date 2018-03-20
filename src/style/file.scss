@@ -15,3 +15,17 @@
     }
   }
 }
+
+.file__pending {
+  @extend .center-screen;
+  &::after {
+    @include loader;
+    border-width: 8px;
+    height: 6em;
+    width: 6em;
+  }
+}
+
+pre {
+  white-space: pre-wrap;
+}
