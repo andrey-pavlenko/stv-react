@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 // TODO: Rename icons
 import { ArrowDownBoxOutline } from '../Icons';
@@ -36,7 +37,9 @@ class Navbar extends PureComponent {
           })}
         >
           <div className="navbar-end">
-            <a className="navbar-item">На главную</a>
+            <Link to="/" className="navbar-item">
+              На главную
+            </Link>
             <a className="navbar-item">
               <ArrowDownBoxOutline className="icon" />&nbsp;Загрузить
             </a>

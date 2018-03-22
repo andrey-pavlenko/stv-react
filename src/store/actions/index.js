@@ -1,6 +1,7 @@
 import axios from 'axios';
 import parseHtmlResponse from '../../modules/parse-files-response-html';
 import { getCurrentWeek, getWeeks } from '../selectors';
+import { notifications } from '../../components/Notifications';
 
 export const SET_CURRENT_WEEK = 'SET_CURRENT_WEEK';
 export const FILES_REQUEST_PENDING = 'FILES_REQUEST_PENDING';
@@ -18,12 +19,12 @@ export const filesRequest = () => (dispatch, getState) => {
   axios
     .get(url)
     .then(response => {
-      // TODO: Если в ответе будет сообщение об ошибке -- проверить
+      // TODO: response may have any error messages
       dispatch({
         type: FILES_REQUEST_SUCCESS,
         payload: parseHtmlResponse(response.data, 3)
       });
-      // TODO: Если без ошибок -- установить неделю
+      // TODO: if no errors -- set week
       if (!getCurrentWeek(getState())) {
         dispatch({
           type: SET_CURRENT_WEEK,
@@ -31,5 +32,5 @@ export const filesRequest = () => (dispatch, getState) => {
         });
       }
     })
-    .catch(error => console.error(error));
+    .catch(error => notifications.networkError(error));
 };

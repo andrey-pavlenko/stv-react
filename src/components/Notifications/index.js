@@ -15,7 +15,10 @@ class Notifications extends PureComponent {
     const notification = {
       id: new Date().getTime(),
       type: options.type || '',
-      timeout: options.timeout || 3000,
+      timeout:
+        Number.isInteger(options.timeout) && options.timeout >= 0
+          ? options.timeout
+          : 3000,
       content: options.content || ''
     };
 
@@ -37,6 +40,39 @@ class Notifications extends PureComponent {
       notifications: this.state.notifications.filter(
         notification => notification.id !== id
       )
+    });
+  }
+
+  /**
+   * Notify axios network error
+   *
+   * @param {Error} error
+   */
+  networkError(error) {
+    let content;
+    if (error.response) {
+      const message =
+        error.response.data && !/<!DOCTYPE/i.test(error.response.data)
+          ? error.response.data
+          : error.message;
+      content = (
+        <p>
+          <b>
+            {error.response.status}: {error.response.statusText}.
+          </b>&ensp;{message}
+        </p>
+      );
+    } else {
+      content = (
+        <p>
+          <b>{error.message}.</b>&ensp; Подробности ошибки могут быть в консоли.
+        </p>
+      );
+    }
+    this.addNotification({
+      type: 'danger',
+      content: content,
+      timeout: 10000
     });
   }
 

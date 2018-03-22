@@ -8,6 +8,8 @@ import TextContent from './TextContent';
 import { getFileItem as stateGetFileItem } from '../../store/selectors';
 import { week as formatWeek, time as formatTime } from '../../modules/format';
 
+import { notifications } from '../Notifications';
+
 class File extends PureComponent {
   state = {
     item: null,
@@ -16,24 +18,25 @@ class File extends PureComponent {
     error: null
   };
 
-  // TODO: request method not choosen
+  // TODO: network error 503 not catched
   componentWillMount() {
     const urlId = parseInt(this.props.match.params.urlId, 10);
     if (!isNaN(urlId)) {
       const item = stateGetFileItem(urlId);
       if (item) {
+        const url =
+          'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru' +
+          item.url;
         this.setState({ item: item, pending: true });
-        console.info(item);
         axios
-          .get(
-            'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru' +
-              item.url
-          )
+          .get(url)
           .then(response => {
-            // console.info(response);
             this.setState({ pending: false, content: response.data });
           })
-          .catch(error => console.error(error));
+          .catch(error => {
+            this.setState({ pending: false });
+            notifications.networkError(error);
+          });
       }
     }
   }
@@ -73,7 +76,7 @@ class File extends PureComponent {
           {this.state.pending ? (
             <div className="file__pending" />
           ) : (
-            <TextContent content={this.state.content} />
+            this.state.content && <TextContent content={this.state.content} />
           )}
         </div>
       </Fragment>
