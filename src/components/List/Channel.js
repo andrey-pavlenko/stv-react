@@ -1,10 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { Window, ArrowDownBoxOutline } from '../Icons';
 import { time as formatTime } from '../../modules/format';
+import { getViewedUrlIds, getDownloadedUrlIds } from '../../store/selectors';
 
 class Channel extends PureComponent {
   static propTypes = {
@@ -28,8 +31,24 @@ class Channel extends PureComponent {
     return (
       <li key={urlId}>
         <span>
-          <Window className="icon is-small has-text-grey-light" />
-          <ArrowDownBoxOutline className="icon is-small has-text-grey-light" />
+          <Window
+            title="Просмотрен"
+            className={classNames(
+              'icon is-small',
+              this.props.viewedUrlIds.includes(urlId)
+                ? 'has-text-primary'
+                : 'has-text-grey-light'
+            )}
+          />
+          <ArrowDownBoxOutline
+            title="Загружен"
+            className={classNames(
+              'icon is-small',
+              this.props.downloadedUrlIds.includes(urlId)
+                ? 'has-text-primary'
+                : 'has-text-grey-light'
+            )}
+          />
         </span>
         <Link to={`/file/${urlId}`}>
           <span>{variant}</span>
@@ -64,4 +83,9 @@ class Channel extends PureComponent {
   }
 }
 
-export default Channel;
+const mapStateToProps = state => ({
+  viewedUrlIds: getViewedUrlIds(state),
+  downloadedUrlIds: getDownloadedUrlIds(state)
+});
+
+export default connect(mapStateToProps)(Channel);

@@ -1,11 +1,20 @@
 import axios from 'axios';
 import parseHtmlResponse from '../../modules/parse-files-response-html';
-import { getCurrentWeek, getWeeks } from '../selectors';
+import {
+  getCurrentWeek,
+  getWeeks,
+  getItemUrlIds,
+  getViewedUrlIds,
+  getDownloadedUrlIds
+} from '../selectors';
 import { notifications } from '../../components/Notifications';
 
 export const SET_CURRENT_WEEK = 'SET_CURRENT_WEEK';
 export const FILES_REQUEST_PENDING = 'FILES_REQUEST_PENDING';
 export const FILES_REQUEST_SUCCESS = 'FILES_REQUEST_SUCCESS';
+
+export const FILE_UPDATE_VIEWED = 'FILE_UPDATE_VIEWED';
+export const FILE_UPDATE_DOWNLOADED = 'FILE_UPDATE_DOWNLOADED';
 
 export const setCurrentWeek = week => ({
   type: SET_CURRENT_WEEK,
@@ -33,4 +42,26 @@ export const filesRequest = () => (dispatch, getState) => {
       }
     })
     .catch(error => notifications.networkError(error));
+};
+
+export const fileAddViewed = urlId => (dispatch, getState) => {
+  const itemIds = getItemUrlIds(getState());
+  const viewedUrlIds = getViewedUrlIds(getState())
+    .add(urlId)
+    .filter(viewed => itemIds.includes(viewed));
+  dispatch({
+    type: FILE_UPDATE_VIEWED,
+    payload: viewedUrlIds
+  });
+};
+
+export const fileAddDownloaded = urlId => (dispatch, getState) => {
+  const itemIds = getItemUrlIds(getState());
+  const downloadedUrlIds = getDownloadedUrlIds(getState())
+    .add(urlId)
+    .filter(downloaded => itemIds.includes(downloaded));
+  dispatch({
+    type: FILE_UPDATE_DOWNLOADED,
+    payload: downloadedUrlIds
+  });
 };

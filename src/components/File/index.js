@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import TextContent from './TextContent';
 import { getFileItem as stateGetFileItem } from '../../store/selectors';
 import { week as formatWeek, time as formatTime } from '../../modules/format';
+import { fileAddViewed, fileAddDownloaded } from '../../store/actions';
 
 import { notifications } from '../Notifications';
 
@@ -32,6 +33,7 @@ class File extends PureComponent {
           .get(url)
           .then(response => {
             this.setState({ pending: false, content: response.data });
+            this.props.fileAddViewed(item.urlId);
           })
           .catch(error => {
             this.setState({ pending: false });
@@ -45,6 +47,21 @@ class File extends PureComponent {
     window.scrollTo(0, 0);
   }
 
+  handleDownload = () => {
+    const element = document.createElement('a');
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' + encodeURIComponent(this.state.content)
+    );
+    const fileName = this.state.item.name;
+    element.setAttribute('download', `${fileName}.txt`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+    this.props.fileAddDownloaded(this.state.item.urlId);
+  };
+
   render() {
     if (!this.state.item) {
       return <Redirect to="/" />;
@@ -55,7 +72,7 @@ class File extends PureComponent {
 
     return (
       <Fragment>
-        <Navbar name={name} id={id} />
+        <Navbar name={name} id={id} handleDownload={this.handleDownload} />
         <div className="container">
           <ul className="file-info">
             <li className="file-info__item">{formatWeek(week)}</li>
@@ -84,9 +101,9 @@ class File extends PureComponent {
   }
 }
 
-// TODO: May be connect not needed?
-const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({
+  fileAddViewed: urlId => dispatch(fileAddViewed(urlId)),
+  fileAddDownloaded: urlId => dispatch(fileAddDownloaded(urlId))
+});
 
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(File);
+export default connect(null, mapDispatchToProps)(File);

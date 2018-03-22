@@ -1,4 +1,4 @@
-import { OrderedSet } from 'immutable';
+import { OrderedSet, Set } from 'immutable';
 
 // TODO: memorize selectors
 
@@ -66,3 +66,26 @@ export const getFileItem = urlId =>
  */
 export const getFilesRequestPending = state =>
   state.getIn(['files', 'pending']);
+
+/**
+ * Returns Set of item.urlId
+ *
+ * @param {Object} state
+ * @returns {Set}
+ */
+export const getItemUrlIds = state =>
+  Set(state.getIn(['files', 'items']).map(item => item.urlId));
+
+/**
+ * Returns Set of viewed urlIds
+ *
+ * @param {Set} state
+ */
+export const getViewedUrlIds = state => state.get('viewed');
+
+/**
+ * Returns Set of downloaded urlIds
+ *
+ * @param {Set} state
+ */
+export const getDownloadedUrlIds = state => state.get('downloaded');

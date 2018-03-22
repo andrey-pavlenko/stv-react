@@ -1,15 +1,23 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // TODO: Rename icons
 import { ArrowDownBoxOutline } from '../Icons';
 
 class Navbar extends PureComponent {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    handleDownload: PropTypes.func.isRequired
+  };
+
   state = {
     isActive: false
   };
 
+  // TODO: Disable download if no content
   render() {
     return (
       <nav className="navbar is-primary">
@@ -40,7 +48,7 @@ class Navbar extends PureComponent {
             <Link to="/" className="navbar-item">
               На главную
             </Link>
-            <a className="navbar-item">
+            <a className="navbar-item" onClick={this.props.handleDownload}>
               <ArrowDownBoxOutline className="icon" />&nbsp;Загрузить
             </a>
           </div>

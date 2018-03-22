@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux-immutable';
 import files from './files';
 import week from './week';
-
-// TODO: add viewed, downloaded
+import viewed from './viewed';
+import downloaded from './downloaded';
 
 export default combineReducers({
   files: files,
-  week: week
+  week: week,
+  viewed: viewed,
+  downloaded: downloaded
 });
