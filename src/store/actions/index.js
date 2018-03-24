@@ -21,10 +21,12 @@ export const setCurrentWeek = week => ({
   payload: week
 });
 
+// FIXME: Fake request
 export const filesRequest = () => (dispatch, getState) => {
   dispatch({ type: FILES_REQUEST_PENDING, payload: true });
-  const url =
-    'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru/xchenel.php?login=test&pass=&show=1&xmltv=0';
+  const url = '/s-tv-test.html';
+  // const url =
+  //   'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru/xchenel.php?login=test&pass=&show=1&xmltv=0';
   axios
     .get(url)
     .then(response => {

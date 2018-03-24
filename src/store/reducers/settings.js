@@ -1,9 +1,10 @@
 import { Map } from 'immutable';
 
+// TODO: Remove test login
 const defaultState = {
   url: 'http://xmltv.s-tv.ru',
   cors: 'https://cors.io/?',
-  login: '',
+  login: 'test',
   password: '',
   timezone: 3,
   interval: 0,

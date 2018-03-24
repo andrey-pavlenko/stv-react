@@ -62,7 +62,7 @@ export const getFileItems = state => state.getIn(['files', 'items']);
  * @returns {Object}
  */
 export const getFileItem = urlId =>
-  getFileItems(getState).find(item => item.urlId === urlId) || null;
+  getFileItems(getState()).find(item => item.urlId === urlId) || null;
 
 /**
  * Get list pending status

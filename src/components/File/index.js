@@ -25,9 +25,11 @@ class File extends PureComponent {
     if (!isNaN(urlId)) {
       const item = stateGetFileItem(urlId);
       if (item) {
-        const url =
-          'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru' +
-          item.url;
+        // FIXME: Fake request
+        const url = '/tv.txt';
+        // const url =
+        //   'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru' +
+        //   item.url;
         this.setState({ item: item, pending: true });
         axios
           .get(url)
