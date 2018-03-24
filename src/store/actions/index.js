@@ -16,6 +16,8 @@ export const FILES_REQUEST_SUCCESS = 'FILES_REQUEST_SUCCESS';
 export const FILE_UPDATE_VIEWED = 'FILE_UPDATE_VIEWED';
 export const FILE_UPDATE_DOWNLOADED = 'FILE_UPDATE_DOWNLOADED';
 
+export const SETTINGS_SAVE = 'SETTINGS_SAVE';
+
 export const setCurrentWeek = week => ({
   type: SET_CURRENT_WEEK,
   payload: week
@@ -67,3 +69,8 @@ export const fileAddDownloaded = urlId => (dispatch, getState) => {
     payload: downloadedUrlIds
   });
 };
+
+export const settingsSave = settings => ({
+  type: SETTINGS_SAVE,
+  payload: settings
+});

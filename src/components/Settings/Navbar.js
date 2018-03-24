@@ -1,35 +1,13 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Check, Ban } from '../Icons';
-
-import { notifications } from '../Notifications';
 
 class Navbar extends PureComponent {
   state = {
     isActive: false
-  };
-
-  handleSave = event => {
-    event.preventDefault();
-    // console.info('handleSave', notifications);
-    notifications.addNotification({
-      type: 'primary',
-      content: (
-        <Fragment>
-          <p>Проверка уведомлений</p>
-          <p>
-            <b>Новая срока</b>
-          </p>
-        </Fragment>
-      )
-    });
-  };
-
-  handleCancel = event => {
-    event.preventDefault();
-    console.info('handleCancel');
   };
 
   render() {
@@ -56,14 +34,21 @@ class Navbar extends PureComponent {
           <div className="navbar-end">
             <a
               className="navbar-item"
-              disabled={this.props.hasError()}
-              onClick={this.handleSave}
+              disabled={this.props.hasError}
+              onClick={event => {
+                event.preventDefault();
+                this.props.handleSave();
+              }}
             >
               <Check className="icon" />&nbsp;Сохранить
             </a>
-            <a className="navbar-item" onClick={this.handleCancel}>
+            <Link
+              to="/"
+              className="navbar-item"
+              disabled={!this.props.canCancel}
+            >
               <Ban className="icon" />&nbsp;Отмена
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

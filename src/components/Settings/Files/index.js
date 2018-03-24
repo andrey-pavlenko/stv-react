@@ -1,6 +1,4 @@
 import React from 'react';
-import Format from './Format';
-import Interval from './Interval';
 import Variants from './Variants';
 import Channels from './Channels';
 
@@ -8,8 +6,6 @@ import Channels from './Channels';
 
 export default props => (
   <div>
-    <Format />
-    <Interval />
     <Variants />
     <Channels />
   </div>

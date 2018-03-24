@@ -1,11 +1,12 @@
 import React, { Fragment, PureComponent } from 'react';
+import { Redirect } from 'react-router-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { Map } from 'immutable';
+import { Map, OrderedSet, OrderedMap } from 'immutable';
 import { connect } from 'react-redux';
 
 import { getSettings, getFileItems } from '../../store/selectors';
-
+import { settingsSave } from '../../store/actions';
 import { validate, hasError } from './validate';
 
 import Navbar from './Navbar';
@@ -15,11 +16,12 @@ import Files from './Files';
 class Settings extends PureComponent {
   state = {
     data: Map(this.props.settings),
-    tab: 'files',
+    tab: 'server',
     tabs: {
       server: Server,
       files: Files
-    }
+    },
+    isSaved: false
   };
 
   // Context ==============================================
@@ -28,7 +30,9 @@ class Settings extends PureComponent {
     data: PropTypes.instanceOf(Map),
     getValidation: PropTypes.func,
     setData: PropTypes.func,
-    setDataCallback: PropTypes.func
+    setDataCallback: PropTypes.func,
+    variants: PropTypes.instanceOf(OrderedSet),
+    channels: PropTypes.instanceOf(OrderedMap)
   };
 
   getChildContext() {
@@ -36,7 +40,9 @@ class Settings extends PureComponent {
       data: this.state.data,
       getValidation: this.getValidation,
       setData: this.setData,
-      setDataCallback: this.setDataCallback
+      setDataCallback: this.setDataCallback,
+      variants: this.variants,
+      channels: this.channels
     };
   }
 
@@ -50,9 +56,24 @@ class Settings extends PureComponent {
 
   getValidation = name => validate(this.state.data, name);
 
+  variants = OrderedSet(
+    this.props.items
+      .map(item => item.variant)
+      .concat(this.props.settings.get('hiddenVariants'))
+      .sort()
+  );
+
+  channels = OrderedMap(
+    this.props.items.map(item => [item.id, item.name])
+  ).sortBy((value, key) => value.toLocaleLowerCase());
+
   // ======================================================
 
   render() {
+    if (this.state.isSaved) {
+      return <Redirect to="/" />;
+    }
+
     const TabComponent =
       this.state.tabs[this.state.tab] || this.state.tabs['server'];
 
@@ -61,9 +82,20 @@ class Settings extends PureComponent {
       this.setState({ tab: event.target.name });
     };
 
+    // TODO: Style disabled tab
     return (
       <Fragment>
-        <Navbar hasError={() => hasError(this.state.data)} />
+        <Navbar
+          hasError={hasError(this.state.data)}
+          canCancel={
+            !!this.props.settings.get('url') &&
+            !!this.props.settings.get('login')
+          }
+          handleSave={() => {
+            this.props.settingsSave(this.state.data);
+            this.setState({ isSaved: true });
+          }}
+        />
         <div className="container">
           <div className="tabs">
             <ul>
@@ -81,7 +113,11 @@ class Settings extends PureComponent {
                   'is-active': this.state.tab === 'files'
                 })}
               >
-                <a name="files" onClick={handleTabClick}>
+                <a
+                  name="files"
+                  onClick={handleTabClick}
+                  disabled={this.props.items.size === 0}
+                >
                   Файлы
                 </a>
               </li>
@@ -99,6 +135,8 @@ const mapStateToProps = state => ({
   items: getFileItems(state)
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  settingsSave: data => dispatch(settingsSave(data))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

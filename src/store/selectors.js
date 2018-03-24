@@ -101,3 +101,11 @@ export const getDownloadedUrlIds = state => state.get('downloaded');
  * @param {Map} state
  */
 export const getSettings = state => state.get('settings');
+
+/**
+ * Return renamed channel name state.settings.renameChannels[id]
+ *
+ * @param {String} id
+ */
+export const getChannelName = id =>
+  getSettings(getState()).get('renameChannels')[id];
