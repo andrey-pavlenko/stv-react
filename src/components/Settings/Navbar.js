@@ -54,7 +54,11 @@ class Navbar extends PureComponent {
           })}
         >
           <div className="navbar-end">
-            <a className="navbar-item" onClick={this.handleSave}>
+            <a
+              className="navbar-item"
+              disabled={this.props.hasError()}
+              onClick={this.handleSave}
+            >
               <Check className="icon" />&nbsp;Сохранить
             </a>
             <a className="navbar-item" onClick={this.handleCancel}>

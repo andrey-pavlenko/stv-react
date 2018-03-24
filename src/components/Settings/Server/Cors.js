@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import ValidationField from '../ValidationField';
 
-class Cors extends PureComponent {
+class Cors extends ValidationField {
   render() {
+    const { data, setData } = this.context;
     return (
       <div className="field is-horizontal">
         <div className="field-label is-normal">
@@ -11,7 +13,10 @@ class Cors extends PureComponent {
           <div className="field">
             <div className="control">
               <div className="select is-fullwidth">
-                <select>
+                <select
+                  value={data.get('cors')}
+                  onChange={event => setData('cors', event.target.value)}
+                >
                   <option value="">Не использовать</option>
                   <option value="https://cors.io/?">cors.io</option>
                   <option value="https://thingproxy.freeboard.io/fetch/">
@@ -29,7 +34,7 @@ class Cors extends PureComponent {
                   </option>
                 </select>
               </div>
-              <p className="help">Не будет работать</p>
+              {this.renderValidation('cors')}
             </div>
           </div>
         </div>

@@ -44,3 +44,11 @@
 .navbar__id-tag {
   border: 1px solid currentColor;
 }
+
+.navbar-item[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+  &:hover {
+    background-color: unset !important;
+  }
+}

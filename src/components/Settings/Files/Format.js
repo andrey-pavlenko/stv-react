@@ -1,7 +1,10 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import Field from '../Field';
 
-class Format extends PureComponent {
+class Format extends Field {
   render() {
+    const { data, setData } = this.context;
+
     return (
       <div className="field is-horizontal">
         <div className="field-label is-normal">
@@ -11,10 +14,10 @@ class Format extends PureComponent {
           <div className="field">
             <div className="control">
               <div className="select is-fullwidth">
-                <select>
-                  <option value="-1" style={{ display: 'none' }}>
-                    Выбрать
-                  </option>
+                <select
+                  value={data.get('format')}
+                  onChange={event => setData('format', event.target.value)}
+                >
                   <option value="0">Text</option>
                   <option value="1">XML TV</option>
                   <option value="2">XML</option>
@@ -22,7 +25,6 @@ class Format extends PureComponent {
                   <option value="9">HTML</option>
                 </select>
               </div>
-              <p className="help">Значение обязательно</p>
             </div>
           </div>
         </div>

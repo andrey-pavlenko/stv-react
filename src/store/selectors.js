@@ -49,15 +49,20 @@ export const getCurrentWeekFileItems = state => {
 };
 
 /**
+ * Get files items
+ *
+ * @returns {List}
+ */
+export const getFileItems = state => state.getIn(['files', 'items']);
+
+/**
  * Get first files/items by urlId
  *
  * @param {Number} urlId
  * @returns {Object}
  */
 export const getFileItem = urlId =>
-  getState()
-    .getIn(['files', 'items'])
-    .find(item => item.urlId === urlId) || null;
+  getFileItems(getState).find(item => item.urlId === urlId) || null;
 
 /**
  * Get list pending status
@@ -89,3 +94,10 @@ export const getViewedUrlIds = state => state.get('viewed');
  * @param {Set} state
  */
 export const getDownloadedUrlIds = state => state.get('downloaded');
+
+/**
+ * Returns settings data
+ *
+ * @param {Map} state
+ */
+export const getSettings = state => state.get('settings');

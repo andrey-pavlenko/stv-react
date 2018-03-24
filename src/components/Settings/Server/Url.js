@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import ValidationField from '../ValidationField';
 
-class Url extends PureComponent {
+class Url extends ValidationField {
   render() {
+    const { data, setData } = this.context;
     return (
       <div className="field is-horizontal">
         <div className="field-label is-normal">
@@ -14,9 +16,11 @@ class Url extends PureComponent {
                 className="input is-fullwidth"
                 type="text"
                 placeholder="Адрес сервера телепрограмм"
+                value={data.get('url')}
+                onChange={event => setData('url', event.target.value)}
               />
             </div>
-            <p className="help">Значение обязательно</p>
+            {this.renderValidation('url')}
           </div>
         </div>
       </div>
