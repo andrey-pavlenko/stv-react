@@ -19,7 +19,6 @@ class ChannelsList extends PureComponent {
     }
   }
 
-  // TODO: Goto Settings if no url and login
   render() {
     if (!this.props.settings.get('url') || !this.props.settings.get('login')) {
       return <Redirect to="/settings" />;

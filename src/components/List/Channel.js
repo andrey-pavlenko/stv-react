@@ -15,7 +15,8 @@ import {
 } from '../../store/selectors';
 import {
   settingsRenameChannel,
-  settingsRestoreChannelName
+  settingsRestoreChannelName,
+  settingsHideChannel
 } from '../../store/actions';
 import RenameChannel from '../Settings/RenameChannel';
 
@@ -57,6 +58,7 @@ class Channel extends PureComponent {
               handleBlur={handleCancel}
               handleRestore={handleRestore}
               isSmall={false}
+              hasRestore={name !== newName}
             />
           </div>
         ) : (
@@ -130,7 +132,14 @@ class Channel extends PureComponent {
               </button>
             </div>
             <div className="control">
-              <button className="button is-small">Скрыть</button>
+              <button
+                className="button is-small"
+                onClick={() =>
+                  this.props.hideChannel(this.props.files.first().id)
+                }
+              >
+                Скрыть
+              </button>
             </div>
           </div>
         </footer>
@@ -147,6 +156,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   renameChannel: (id, newName) => dispatch(settingsRenameChannel(id, newName)),
+  hideChannel: id => dispatch(settingsHideChannel(id)),
   restoreName: id => dispatch(settingsRestoreChannelName(id))
 });
 

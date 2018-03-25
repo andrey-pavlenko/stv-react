@@ -2,7 +2,8 @@ import { Map } from 'immutable';
 import {
   SETTINGS_SAVE,
   SETTINGS_RENAME_CHANNEL,
-  SETTINGS_RESTORE_CHANNEL_NAME
+  SETTINGS_RESTORE_CHANNEL_NAME,
+  SETTINGS_HIDE_CHANNEL
 } from '../actions';
 
 const defaultState = {
@@ -47,7 +48,14 @@ export default (state = Map(getSettings()), action) => {
     setSettings(newState.toJS());
     return newState;
   }
-
+  case SETTINGS_HIDE_CHANNEL: {
+    const newState = state.set('hiddenChannels', [
+      ...state.get('hiddenChannels'),
+      action.payload
+    ]);
+    setSettings(newState.toJS());
+    return newState;
+  }
   default:
     return state;
   }

@@ -63,9 +63,9 @@ class Settings extends PureComponent {
       .sort()
   );
 
-  channels = OrderedMap(
-    this.props.items.map(item => [item.id, item.name])
-  ).sortBy((value, key) => value.toLocaleLowerCase());
+  channels = OrderedMap(this.props.items.map(item => [item.id, item.name]))
+    .merge(this.props.settings.get('renameChannels'))
+    .sortBy((value, key) => value.toLocaleLowerCase());
 
   // ======================================================
 
@@ -82,7 +82,6 @@ class Settings extends PureComponent {
       this.setState({ tab: event.target.name });
     };
 
-    // TODO: Style disabled tab
     return (
       <Fragment>
         <Navbar
@@ -116,7 +115,7 @@ class Settings extends PureComponent {
                 <a
                   name="files"
                   onClick={handleTabClick}
-                  disabled={this.props.items.size === 0}
+                  disabled={!this.variants.size || !this.channels.size}
                 >
                   Файлы
                 </a>

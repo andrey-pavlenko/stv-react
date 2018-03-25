@@ -13,7 +13,8 @@ const RenameChannel = props => {
     handleKeyEsc,
     handleBlur,
     handleRestore,
-    isSmall
+    isSmall,
+    hasRestore
   } = props;
 
   const handleKeyDown = event => {
@@ -40,7 +41,6 @@ const RenameChannel = props => {
     }, 0);
   };
 
-  // TODO: Change Ban icon to Restore
   return (
     <div
       className="rename-channel field has-addons"
@@ -64,14 +64,16 @@ const RenameChannel = props => {
           onKeyDown={handleKeyDown}
         />
       </div>
-      <p className="control">
-        <a
-          className={classNames('button is-primary', { 'is-small': isSmall })}
-          onClick={handleRestore}
-        >
-          <Times className="icon" title="Отменить переименование" />
-        </a>
-      </p>
+      {hasRestore && (
+        <p className="control">
+          <a
+            className={classNames('button is-primary', { 'is-small': isSmall })}
+            onClick={handleRestore}
+          >
+            <Times className="icon" title="Отменить переименование" />
+          </a>
+        </p>
+      )}
     </div>
   );
 };
@@ -84,7 +86,8 @@ RenameChannel.propTypes = {
   handleKeyEsc: PropTypes.func,
   handleBlur: PropTypes.func,
   handleRestore: PropTypes.func,
-  isSmall: PropTypes.bool
+  isSmall: PropTypes.bool,
+  hasRestore: PropTypes.bool
 };
 
 RenameChannel.defaultProps = {
@@ -92,7 +95,8 @@ RenameChannel.defaultProps = {
   handleKeyEsc: () => {},
   handleBlur: () => {},
   handleRestore: () => {},
-  isSmall: false
+  isSmall: false,
+  hasRestore: true
 };
 
 export default RenameChannel;

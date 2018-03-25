@@ -5,7 +5,10 @@ import axios from 'axios';
 
 import Navbar from './Navbar';
 import TextContent from './TextContent';
-import { getFileItem as stateGetFileItem } from '../../store/selectors';
+import {
+  getFileItem as stateGetFileItem,
+  getChannelName
+} from '../../store/selectors';
 import { week as formatWeek, time as formatTime } from '../../modules/format';
 import { fileAddViewed, fileAddDownloaded } from '../../store/actions';
 
@@ -55,7 +58,7 @@ class File extends PureComponent {
       'href',
       'data:text/plain;charset=utf-8,' + encodeURIComponent(this.state.content)
     );
-    const fileName = this.state.item.name;
+    const fileName = getChannelName(this.state.item.id) || this.state.item.name;
     element.setAttribute('download', `${fileName}.txt`);
     element.style.display = 'none';
     document.body.appendChild(element);
@@ -69,12 +72,16 @@ class File extends PureComponent {
       return <Redirect to="/" />;
     }
 
-    // TODO: get rename channel
     const { name, id, week, variant, type, timeshift, time } = this.state.item;
+    const newName = getChannelName(id);
 
     return (
       <Fragment>
-        <Navbar name={name} id={id} handleDownload={this.handleDownload} />
+        <Navbar
+          name={newName || name}
+          id={id}
+          handleDownload={this.handleDownload}
+        />
         <div className="container">
           <ul className="file-info">
             <li className="file-info__item">{formatWeek(week)}</li>

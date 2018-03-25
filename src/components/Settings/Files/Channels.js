@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { Ban } from '../../Icons';
+import RenameChannel from '../RenameChannel';
 
 class Channels extends Component {
   static contextTypes = {
@@ -41,31 +41,49 @@ class Channels extends Component {
     }
   };
 
-  // TODO: Resize and modfy Cancel raname icon
-  renderRenaming = (id, name) => (
-    <td colSpan="3">
-      <div className="field has-addons">
-        <p className="control">
-          <a className="button is-static is-small">{id}</a>
-        </p>
-        <div className="control is-expanded has-icons-right">
-          <input
-            className="input is-fullwidth is-small"
-            type="text"
-            autoFocus
-            placeholder={name}
-            defaultValue={this.getChannelName(id) || name}
-            onKeyDown={event => this.handleRenameKeyDown(event, id)}
-            onBlur={() => this.setState({ renaming: '' })}
-          />
-          <Ban
-            className="icon is-small is-right"
-            title="Отменить переименование"
-          />
-        </div>
-      </div>
-    </td>
-  );
+  renderRenaming = (id, name) => {
+    const handleKeyEnter = value => {
+      value = value.trim();
+      if (value) {
+        const { data, setData } = this.context;
+        setData('renameChannels', {
+          ...data.get('renameChannels'),
+          [id]: value
+        });
+        this.setState({ renaming: '' });
+      }
+    };
+
+    const handleRestore = () => {
+      const { data, setData } = this.context;
+      const renameChannels = { ...data.get('renameChannels') };
+      delete renameChannels[id];
+      setData('renameChannels', renameChannels);
+      this.setState({ renaming: '' });
+    };
+
+    const newName = this.getChannelName(id);
+
+    return (
+      <td colSpan="3">
+        <RenameChannel
+          id={id}
+          name={newName || name}
+          placeholder={name}
+          isSmall={true}
+          handleKeyEnter={handleKeyEnter}
+          handleKeyEsc={() => {
+            this.setState({ renaming: '' });
+          }}
+          handleBlur={() => {
+            this.setState({ renaming: '' });
+          }}
+          handleRestore={handleRestore}
+          hasRestore={!!newName && name !== newName}
+        />
+      </td>
+    );
+  };
 
   handleToggleChannel = (event, id) => {
     const { data, setData } = this.context;

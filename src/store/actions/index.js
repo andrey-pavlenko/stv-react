@@ -18,6 +18,7 @@ export const FILE_UPDATE_DOWNLOADED = 'FILE_UPDATE_DOWNLOADED';
 
 export const SETTINGS_SAVE = 'SETTINGS_SAVE';
 export const SETTINGS_RENAME_CHANNEL = 'SETTINGS_RENAME_CHANNEL';
+export const SETTINGS_HIDE_CHANNEL = 'SETTINGS_HIDE_CHANNEL';
 export const SETTINGS_RESTORE_CHANNEL_NAME = 'SETTINGS_RESTORE_CHANNEL_NAME';
 
 export const setCurrentWeek = week => ({
@@ -39,7 +40,6 @@ export const filesRequest = () => (dispatch, getState) => {
         type: FILES_REQUEST_SUCCESS,
         payload: parseHtmlResponse(response.data, 3)
       });
-      // TODO: if no errors -- set week
       if (!getCurrentWeek(getState())) {
         dispatch({
           type: SET_CURRENT_WEEK,
@@ -87,5 +87,10 @@ export const settingsRenameChannel = (id, newName) => ({
 
 export const settingsRestoreChannelName = id => ({
   type: SETTINGS_RESTORE_CHANNEL_NAME,
+  payload: id
+});
+
+export const settingsHideChannel = id => ({
+  type: SETTINGS_HIDE_CHANNEL,
   payload: id
 });

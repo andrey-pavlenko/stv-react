@@ -25,9 +25,15 @@ body,
 }
 
 // TODO: Move to individual style file
-
 .rename-channel {
   @at-root .card-header-title > & {
     flex-grow: 1;
+  }
+}
+
+.tabs {
+  li > a[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }
