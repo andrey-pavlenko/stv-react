@@ -1,5 +1,9 @@
 import { Map } from 'immutable';
-import { SETTINGS_SAVE } from '../actions';
+import {
+  SETTINGS_SAVE,
+  SETTINGS_RENAME_CHANNEL,
+  SETTINGS_RESTORE_CHANNEL_NAME
+} from '../actions';
 
 const defaultState = {
   url: 'http://xmltv.s-tv.ru',
@@ -27,6 +31,23 @@ export default (state = Map(getSettings()), action) => {
     setSettings(newState.toJS());
     return newState;
   }
+  case SETTINGS_RENAME_CHANNEL: {
+    const { id, newName } = action.payload;
+    const newState = state.set('renameChannels', {
+      ...state.get('renameChannels'),
+      [id]: newName
+    });
+    setSettings(newState.toJS());
+    return newState;
+  }
+  case SETTINGS_RESTORE_CHANNEL_NAME: {
+    const renameChannels = { ...state.get('renameChannels') };
+    delete renameChannels[action.payload];
+    const newState = state.set('renameChannels', renameChannels);
+    setSettings(newState.toJS());
+    return newState;
+  }
+
   default:
     return state;
   }

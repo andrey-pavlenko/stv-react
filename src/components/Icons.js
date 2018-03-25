@@ -59,3 +59,13 @@ export const Ban = props => (
     {props.title && <title>{props.title}</title>}
   </svg>
 );
+
+export const Times = props => (
+  <svg version="1.1" viewBox="0 0 24 24" {...props}>
+    <path
+      fill="currentColor"
+      d="m19.51 22.57 3.09-3.09c0.54-0.54 0.54-1.4 0-1.94l-5.57-5.57 5.57-5.57c0.54-0.54 0.54-1.4 0-1.94L19.51 1.37c-0.54-0.54-1.4-0.54-1.94 0L12 6.94 6.43 1.37C5.89 0.84 5.03 0.84 4.49 1.37L1.4 4.46C0.87 5 0.87 5.87 1.4 6.4l5.57 5.57-5.57 5.57c-0.54 0.54-0.54 1.4 0 1.94l3.09 3.09c0.54 0.54 1.4 0.54 1.94 0L12 17l5.57 5.57c0.53 0.53 1.4 0.53 1.94 0z"
+    />
+    {props.title && <title>{props.title}</title>}
+  </svg>
+);

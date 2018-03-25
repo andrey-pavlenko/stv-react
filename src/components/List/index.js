@@ -32,7 +32,12 @@ class ChannelsList extends PureComponent {
           {this.props.items.size > 0 ? (
             this.props.items
               .groupBy(item => item.id)
-              .map((files, id) => <Channel key={id} files={files} />)
+              .map(
+                (files, id) =>
+                  !this.props.settings.get('hiddenChannels').includes(id) && (
+                    <Channel key={id} files={files} />
+                  )
+              )
               .toArray()
           ) : (
             <div className="center-screen is-size-2 has-text-grey-lighter">

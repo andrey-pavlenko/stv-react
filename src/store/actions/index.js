@@ -17,6 +17,8 @@ export const FILE_UPDATE_VIEWED = 'FILE_UPDATE_VIEWED';
 export const FILE_UPDATE_DOWNLOADED = 'FILE_UPDATE_DOWNLOADED';
 
 export const SETTINGS_SAVE = 'SETTINGS_SAVE';
+export const SETTINGS_RENAME_CHANNEL = 'SETTINGS_RENAME_CHANNEL';
+export const SETTINGS_RESTORE_CHANNEL_NAME = 'SETTINGS_RESTORE_CHANNEL_NAME';
 
 export const setCurrentWeek = week => ({
   type: SET_CURRENT_WEEK,
@@ -73,4 +75,17 @@ export const fileAddDownloaded = urlId => (dispatch, getState) => {
 export const settingsSave = settings => ({
   type: SETTINGS_SAVE,
   payload: settings
+});
+
+export const settingsRenameChannel = (id, newName) => ({
+  type: SETTINGS_RENAME_CHANNEL,
+  payload: {
+    id,
+    newName
+  }
+});
+
+export const settingsRestoreChannelName = id => ({
+  type: SETTINGS_RESTORE_CHANNEL_NAME,
+  payload: id
 });

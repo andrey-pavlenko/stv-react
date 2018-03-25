@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
@@ -7,21 +7,66 @@ import classNames from 'classnames';
 
 import { Window, ArrowDownBoxOutline } from '../Icons';
 import { time as formatTime } from '../../modules/format';
-import { getViewedUrlIds, getDownloadedUrlIds } from '../../store/selectors';
+import {
+  getViewedUrlIds,
+  getDownloadedUrlIds,
+  getChannelName,
+  getSettings
+} from '../../store/selectors';
+import {
+  settingsRenameChannel,
+  settingsRestoreChannelName
+} from '../../store/actions';
+import RenameChannel from '../Settings/RenameChannel';
 
 class Channel extends PureComponent {
   static propTypes = {
     files: PropTypes.instanceOf(List)
   };
 
+  state = {
+    isRenaming: false
+  };
+
   renderHeader() {
     const { id, name } = this.props.files.first();
+    const newName = getChannelName(id) || name;
+    const handleRename = newName => {
+      newName = newName.trim();
+      if (newName) {
+        this.props.renameChannel(id, newName);
+        this.setState({ isRenaming: false });
+      }
+    };
+    const handleRestore = () => {
+      this.props.restoreName(id);
+      this.setState({ isRenaming: false });
+    };
+    const handleCancel = () => this.setState({ isRenaming: false });
+
     return (
       <header className="card-header">
-        <p className="card-header-title is-size-4">{name}</p>
-        <p className="card-header-icon">
-          <span className="tag is-info">{id}</span>
-        </p>
+        {this.state.isRenaming ? (
+          <div className="card-header-title">
+            <RenameChannel
+              id={id}
+              name={newName}
+              placeholder={name}
+              handleKeyEnter={handleRename}
+              handleKeyEsc={handleCancel}
+              handleBlur={handleCancel}
+              handleRestore={handleRestore}
+              isSmall={false}
+            />
+          </div>
+        ) : (
+          <Fragment>
+            <p className="card-header-title is-size-4">{newName}</p>
+            <p className="card-header-icon">
+              <span className="tag is-info">{id}</span>
+            </p>
+          </Fragment>
+        )}
       </header>
     );
   }
@@ -66,12 +111,23 @@ class Channel extends PureComponent {
       <div className="card">
         {this.renderHeader()}
         <ul className="card-content">
-          {this.props.files.map(item => this.renderFileItem(item))}
+          {this.props.files.map(
+            item =>
+              !this.props.settings
+                .get('hiddenVariants')
+                .includes(item.variant) && this.renderFileItem(item)
+          )}
         </ul>
         <footer className="card-footer">
           <div className="card-footer-item field is-grouped">
             <div className="control">
-              <button className="button is-small">Переменовать</button>
+              <button
+                className="button is-small"
+                disabled={this.state.isRenaming}
+                onClick={() => this.setState({ isRenaming: true })}
+              >
+                Переменовать
+              </button>
             </div>
             <div className="control">
               <button className="button is-small">Скрыть</button>
@@ -85,7 +141,13 @@ class Channel extends PureComponent {
 
 const mapStateToProps = state => ({
   viewedUrlIds: getViewedUrlIds(state),
-  downloadedUrlIds: getDownloadedUrlIds(state)
+  downloadedUrlIds: getDownloadedUrlIds(state),
+  settings: getSettings(state)
 });
 
-export default connect(mapStateToProps)(Channel);
+const mapDispatchToProps = dispatch => ({
+  renameChannel: (id, newName) => dispatch(settingsRenameChannel(id, newName)),
+  restoreName: id => dispatch(settingsRestoreChannelName(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Channel);
