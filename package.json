@@ -1,7 +1,8 @@
 {
-  "name": "stv-react-03",
-  "version": "0.1.0",
+  "name": "stv-react",
+  "version": "0.3.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "axios": "^0.18.0",
     "bulma": "^0.6.2",
@@ -24,7 +25,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-css": "node-sass src/style/index.scss -o src/",
-    "watch-css": "npm run build-css && node-sass src/style/index.scss -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass src/style/index.scss -o src/ --watch --recursive",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm-run-all build-css build-js"
   },

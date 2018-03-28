@@ -8,7 +8,7 @@ import {
 
 const defaultState = {
   url: 'http://xmltv.s-tv.ru',
-  cors: 'https://cors.io/?',
+  cors: '',
   login: '',
   password: '',
   timezone: 3,
