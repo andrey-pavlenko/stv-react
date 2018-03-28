@@ -4,5 +4,6 @@
 * ~~Settings~~
 * ~~Styling~~
 * ~~Do real request~~
+* Format requests incorrect (different domains)
 * Autorequest
 * Make links View and Download in list
