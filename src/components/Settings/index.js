@@ -95,7 +95,7 @@ class Settings extends PureComponent {
             this.setState({ isSaved: true });
           }}
         />
-        <div className="container">
+        <div className="container settings">
           <div className="tabs">
             <ul>
               <li

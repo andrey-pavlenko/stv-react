@@ -131,21 +131,17 @@ class Channels extends Component {
       return null;
     }
 
-    // TODO: style width, margin-bottom
     return (
       <div className="card">
         <header className="card-header">
           <p className="card-header-title">Каналы</p>
         </header>
         <div className="card-content">
-          <table
-            className="table is-hoverable is-fullwidth"
-            style={{ marginBottom: 0 }}
-          >
+          <table className="table is-hoverable is-fullwidth">
             <thead>
               <tr>
                 <th>Скрыть</th>
-                <th style={{ width: '100%' }}>Канал</th>
+                <th className="is-fullwidth">Канал</th>
                 <th />
               </tr>
             </thead>

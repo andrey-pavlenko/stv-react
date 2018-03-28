@@ -28,21 +28,23 @@ class ChannelsList extends PureComponent {
       <Fragment>
         <Navbar />
         <div className="container">
-          {this.props.items.size > 0 ? (
-            this.props.items
-              .groupBy(item => item.id)
-              .map(
-                (files, id) =>
-                  !this.props.settings.get('hiddenChannels').includes(id) && (
-                    <Channel key={id} files={files} />
-                  )
-              )
-              .toArray()
-          ) : (
-            <div className="center-screen is-size-2 has-text-grey-lighter">
-              Нет файлов
-            </div>
-          )}
+          <div className="channel-list">
+            {this.props.items.size > 0 ? (
+              this.props.items
+                .groupBy(item => item.id)
+                .map(
+                  (files, id) =>
+                    !this.props.settings.get('hiddenChannels').includes(id) && (
+                      <Channel key={id} files={files} />
+                    )
+                )
+                .toArray()
+            ) : (
+              <div className="center-screen is-size-2 has-text-grey-lighter">
+                Нет файлов
+              </div>
+            )}
+          </div>
         </div>
       </Fragment>
     );

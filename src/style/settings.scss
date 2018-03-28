@@ -1,0 +1,43 @@
+.settings {
+  .field {
+    @media screen and (max-width: $desktop) {
+      display: block;
+
+      .field-body {
+        padding: 0 0.5rem;
+      }
+
+      .field-label {
+        padding: 0 0.5rem;
+        text-align: left;
+      }
+    }
+
+    @media screen and (min-width: $desktop) {
+      &.is-horizontal .field-body {
+        flex-grow: 2;
+      }
+    }
+
+    @media screen and (min-width: $fullhd) {
+      &.is-horizontal .field-body {
+        flex-grow: 4;
+      }
+    }
+  }
+
+  .card {
+    .card-content .table {
+      margin-bottom: 0;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: $desktop) {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }
+}

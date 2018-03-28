@@ -1,0 +1,38 @@
+.channel-list {
+  margin-top: 1rem;
+  @media screen and (min-width: $widescreen) {
+    margin: 0.5rem -0.5rem 0 -0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .channel-list__item {
+    margin-bottom: 1rem;
+    @media screen and (max-width: $desktop) {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+    @media screen and (min-width: $widescreen) {
+      margin: 0.5rem;
+      flex-basis: calc(50% - 1rem);
+      display: flex;
+      flex-direction: column;
+      .card-content {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .card-content .table {
+    margin-bottom: 0;
+
+    .tag {
+      cursor: default;
+    }
+
+    td.is-narrow .icon {
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}

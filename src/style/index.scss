@@ -2,6 +2,8 @@
 @import './navbar';
 @import './file';
 @import './notifications';
+@import './list';
+@import './settings';
 
 html {
   overflow-y: auto;
@@ -35,5 +37,12 @@ body,
   li > a[disabled] {
     opacity: 0.5;
     pointer-events: none;
+  }
+}
+
+.table {
+  td.is-fullwidth,
+  th.is-fullwidth {
+    width: 100%;
   }
 }

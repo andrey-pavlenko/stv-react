@@ -27,21 +27,17 @@ class Variants extends Component {
       return null;
     }
 
-    // TODO: style width, margin-bottom
     return (
       <div className="card">
         <header className="card-header">
           <p className="card-header-title">Варианты</p>
         </header>
         <div className="card-content">
-          <table
-            className="table is-hoverable is-fullwidth"
-            style={{ marginBottom: 0 }}
-          >
+          <table className="table is-hoverable is-fullwidth">
             <thead>
               <tr>
                 <th>Скрыть</th>
-                <th style={{ width: '100%' }}>Вариант</th>
+                <th className="is-fullwidth">Вариант</th>
               </tr>
             </thead>
             <tbody>

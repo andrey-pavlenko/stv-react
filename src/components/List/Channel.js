@@ -76,8 +76,8 @@ class Channel extends PureComponent {
   renderFileItem(item) {
     const { time, timeshift, type, variant, urlId } = item;
     return (
-      <li key={urlId}>
-        <span>
+      <tr key={urlId}>
+        <td className="is-narrow">
           <Window
             title="Просмотрен"
             className={classNames(
@@ -96,30 +96,44 @@ class Channel extends PureComponent {
                 : 'has-text-grey-light'
             )}
           />
-        </span>
-        <Link to={`/file/${urlId}`}>
-          <span>{variant}</span>
-        </Link>
-        {type && <code>{type}</code>}
-        <span>{timeshift}</span>
-        <small className="has-text-grey-light">{formatTime(time)}</small>
-      </li>
+        </td>
+        <td className="is-fullwidth">
+          <Link to={`/file/${urlId}`}>
+            <span>{variant}</span>
+          </Link>
+          {type && <code>{type}</code>}
+        </td>
+        <td>
+          {timeshift > 0 && (
+            <span className="tag is-info" title="Часовой пояс">
+              {timeshift > 0 ? '+' + timeshift : timeshift}
+            </span>
+          )}
+        </td>
+        <td className="is-narrow">
+          <small className="has-text-grey-light">{formatTime(time)}</small>
+        </td>
+      </tr>
     );
   }
 
   render() {
     this.renderHeader();
     return (
-      <div className="card">
+      <div className="card channel-list__item">
         {this.renderHeader()}
-        <ul className="card-content">
-          {this.props.files.map(
-            item =>
-              !this.props.settings
-                .get('hiddenVariants')
-                .includes(item.variant) && this.renderFileItem(item)
-          )}
-        </ul>
+        <div className="card-content">
+          <table className="table is-striped is-fullwidth is-hoverable">
+            <tbody>
+              {this.props.files.map(
+                item =>
+                  !this.props.settings
+                    .get('hiddenVariants')
+                    .includes(item.variant) && this.renderFileItem(item)
+              )}
+            </tbody>
+          </table>
+        </div>
         <footer className="card-footer">
           <div className="card-footer-item field is-grouped">
             <div className="control">
