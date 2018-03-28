@@ -18,7 +18,6 @@ class Cors extends ValidationField {
                   onChange={event => setData('cors', event.target.value)}
                 >
                   <option value="">Не использовать</option>
-                  <option value="https://cors.io/?">cors.io</option>
                   <option value="https://thingproxy.freeboard.io/fetch/">
                     thingproxy.freeboard.io
                   </option>
@@ -32,6 +31,7 @@ class Cors extends ValidationField {
                   <option value="http://fuck-cors.com/?url=">
                     fuck-cors.com
                   </option>
+                  <option value="https://cors.io/?">cors.io</option>
                 </select>
               </div>
               {this.renderValidation('cors')}

@@ -10,14 +10,14 @@ class Navbar extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    handleDownload: PropTypes.func.isRequired
+    handleDownload: PropTypes.func.isRequired,
+    disabled: PropTypes.bool
   };
 
   state = {
     isActive: false
   };
 
-  // TODO: Disable download if no content
   render() {
     return (
       <nav className="navbar is-primary">
@@ -48,7 +48,11 @@ class Navbar extends PureComponent {
             <Link to="/" className="navbar-item">
               На главную
             </Link>
-            <a className="navbar-item" onClick={this.props.handleDownload}>
+            <a
+              className="navbar-item"
+              disabled={this.props.disabled}
+              onClick={this.props.handleDownload}
+            >
               <ArrowDownBoxOutline className="icon" />&nbsp;Загрузить
             </a>
           </div>

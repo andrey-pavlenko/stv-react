@@ -3,5 +3,6 @@
 * ~~List: mark viewed/downloaded~~ reducers: viewed/downloaded
 * ~~Settings~~
 * ~~Styling~~
-* Do real request
+* ~~Do real request~~
 * Autorequest
+* Make links View and Download in list

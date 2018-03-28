@@ -7,7 +7,8 @@ import Navbar from './Navbar';
 import TextContent from './TextContent';
 import {
   getFileItem as stateGetFileItem,
-  getChannelName
+  getChannelName,
+  getSettings
 } from '../../store/selectors';
 import { week as formatWeek, time as formatTime } from '../../modules/format';
 import { fileAddViewed, fileAddDownloaded } from '../../store/actions';
@@ -28,14 +29,12 @@ class File extends PureComponent {
     if (!isNaN(urlId)) {
       const item = stateGetFileItem(urlId);
       if (item) {
-        // FIXME: Fake request
-        const url = '/tv.txt';
-        // const url =
-        //   'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru' +
-        //   item.url;
+        const { cors, url } = this.props.settings.toObject();
+        const requestUrl = `${cors}${url}${item.url}`;
+        // const requestUrl = '/tv.txt';
         this.setState({ item: item, pending: true });
         axios
-          .get(url)
+          .get(requestUrl)
           .then(response => {
             this.setState({ pending: false, content: response.data });
             this.props.fileAddViewed(item.urlId);
@@ -81,6 +80,7 @@ class File extends PureComponent {
           name={newName || name}
           id={id}
           handleDownload={this.handleDownload}
+          disabled={!this.state.content}
         />
         <div className="container">
           <ul className="file-info">
@@ -110,9 +110,13 @@ class File extends PureComponent {
   }
 }
 
+const mapPropsToState = state => ({
+  settings: getSettings(state)
+});
+
 const mapDispatchToProps = dispatch => ({
   fileAddViewed: urlId => dispatch(fileAddViewed(urlId)),
   fileAddDownloaded: urlId => dispatch(fileAddDownloaded(urlId))
 });
 
-export default connect(null, mapDispatchToProps)(File);
+export default connect(mapPropsToState, mapDispatchToProps)(File);

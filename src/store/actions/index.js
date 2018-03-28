@@ -26,14 +26,15 @@ export const setCurrentWeek = week => ({
   payload: week
 });
 
-// FIXME: Fake request
 export const filesRequest = () => (dispatch, getState) => {
   dispatch({ type: FILES_REQUEST_PENDING, payload: true });
-  const url = '/s-tv-test.html';
-  // const url =
-  //   'https://thingproxy.freeboard.io/fetch/http://xmltv.s-tv.ru/xchenel.php?login=test&pass=&show=1&xmltv=0';
+  const { cors, url, login, password, format } = getState()
+    .get('settings')
+    .toObject();
+  const requestUrl = `${cors}${url}/xchenel.php?login=${login}&pass=${password}&show=1&xmltv=${format}`;
+  // const requestUrl = '/s-tv-test.html';
   axios
-    .get(url)
+    .get(requestUrl)
     .then(response => {
       // TODO: response may have any error messages
       dispatch({
@@ -47,7 +48,13 @@ export const filesRequest = () => (dispatch, getState) => {
         });
       }
     })
-    .catch(error => notifications.networkError(error));
+    .catch(error => {
+      notifications.networkError(error);
+      dispatch({
+        type: FILES_REQUEST_PENDING,
+        payload: false
+      });
+    });
 };
 
 export const fileAddViewed = urlId => (dispatch, getState) => {
