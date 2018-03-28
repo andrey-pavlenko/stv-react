@@ -5,6 +5,7 @@ class Interval extends ValidationField {
   render() {
     const { data, setData } = this.context;
 
+    // FIXME: Remove disabled after Autorequest implement
     return (
       <div className="field is-horizontal">
         <div className="field-label is-normal">
@@ -15,6 +16,7 @@ class Interval extends ValidationField {
             <div className="field has-addons">
               <div className="control is-expanded">
                 <input
+                  disabled
                   className="input is-fullwidth"
                   type="number"
                   min="0"
