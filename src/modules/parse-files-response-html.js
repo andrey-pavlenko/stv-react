@@ -1,4 +1,5 @@
 import cheerio from 'cheerio';
+import hash from './string-hash';
 
 function timezoneToString(timezone) {
   let _timezone = (Math.abs(timezone) * 100).toString().padStart(4, '0');
@@ -36,8 +37,7 @@ export function parseRow(rowHtml, timezone) {
     .find('a')
     .attr('href')
     .trim();
-  let urlId = url.match(/[^?]+\?prg=(\d+)&/i);
-  urlId = urlId ? parseInt(urlId[1], 10) : 0;
+  let urlId = hash(url.replace(/&PHPSESSID=[0-9a-z]+/i, ''));
 
   return {
     id: $($tds[0])

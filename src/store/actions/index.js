@@ -28,7 +28,7 @@ export const setCurrentWeek = week => ({
 
 export const filesRequest = () => (dispatch, getState) => {
   dispatch({ type: FILES_REQUEST_PENDING, payload: true });
-  const { cors, url, login, password, format } = getState()
+  const { cors, url, login, password, format, timezone } = getState()
     .get('settings')
     .toObject();
   const requestUrl = `${cors}${url}/xchenel.php?login=${login}&pass=${password}&show=1&xmltv=${format}`;
@@ -39,7 +39,7 @@ export const filesRequest = () => (dispatch, getState) => {
       // TODO: response may have any error messages
       dispatch({
         type: FILES_REQUEST_SUCCESS,
-        payload: parseHtmlResponse(response.data, 3)
+        payload: parseHtmlResponse(response.data, timezone)
       });
       if (!getCurrentWeek(getState())) {
         dispatch({

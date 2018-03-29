@@ -4,6 +4,7 @@
 * ~~Settings~~
 * ~~Styling~~
 * ~~Do real request~~
-* Format requests incorrect (different domains)
+* ~~Format requests incorrect (different url)~~
 * Autorequest
 * Make links View and Download in list
+* Viewers for XML, XLS, HTML
