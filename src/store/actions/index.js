@@ -31,10 +31,22 @@ export const filesRequest = () => (dispatch, getState) => {
   const { cors, url, login, password, format, timezone } = getState()
     .get('settings')
     .toObject();
-  const requestUrl = `${cors}${url}/xchenel.php?login=${login}&pass=${password}&show=1&xmltv=${format}`;
-  // const requestUrl = '/s-tv-test.html';
-  axios
-    .get(requestUrl)
+  const formData = new FormData();
+  formData.set('login', login);
+  formData.set('password', password);
+  formData.set('xmltv', format);
+  const request = {
+    method: 'post',
+    url: `${cors}${url}/xchenel.php`,
+    data: formData,
+    config: {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  };
+
+  axios(request)
     .then(response => {
       // TODO: response may have any error messages
       dispatch({
