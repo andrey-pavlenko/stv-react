@@ -1,10 +1,10 @@
 import { Set } from 'immutable';
 import { FILE_UPDATE_VIEWED } from '../actions';
+import { getItem, setItem } from '../../modules/local-storage';
 
-const getViewed = () => JSON.parse(localStorage.getItem('viewed') || '[]');
+const getViewed = () => JSON.parse(getItem('viewed') || '[]');
 
-const setViewed = viewed =>
-  localStorage.setItem('viewed', JSON.stringify(viewed));
+const setViewed = viewed => setItem('viewed', JSON.stringify(viewed));
 
 export default (state = Set(getViewed()), action) => {
   switch (action.type) {

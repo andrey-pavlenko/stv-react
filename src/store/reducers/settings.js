@@ -5,6 +5,7 @@ import {
   SETTINGS_RESTORE_CHANNEL_NAME,
   SETTINGS_HIDE_CHANNEL
 } from '../actions';
+import { getItem, setItem } from '../../modules/local-storage';
 
 const defaultState = {
   url: 'http://xmltv.s-tv.ru',
@@ -19,11 +20,12 @@ const defaultState = {
   renameChannels: {}
 };
 
-const getSettings = () =>
-  JSON.parse(localStorage.getItem('settings') || JSON.stringify(defaultState));
+const getSettings = () => {
+  let state = JSON.stringify(defaultState);
+  return JSON.parse(getItem('settings', state));
+};
 
-const setSettings = settings =>
-  localStorage.setItem('settings', JSON.stringify(settings));
+const setSettings = settings => setItem('settings', JSON.stringify(settings));
 
 export default (state = Map(getSettings()), action) => {
   switch (action.type) {

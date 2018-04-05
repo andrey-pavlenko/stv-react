@@ -1,11 +1,11 @@
 import { Set } from 'immutable';
 import { FILE_UPDATE_DOWNLOADED } from '../actions';
+import { getItem, setItem } from '../../modules/local-storage';
 
-const getDownloaded = () =>
-  JSON.parse(localStorage.getItem('downloaded') || '[]');
+const getDownloaded = () => JSON.parse(getItem('downloaded') || '[]');
 
 const setDownloaded = downloaded =>
-  localStorage.setItem('downloaded', JSON.stringify(downloaded));
+  setItem('downloaded', JSON.stringify(downloaded));
 
 export default (state = Set(getDownloaded()), action) => {
   switch (action.type) {
